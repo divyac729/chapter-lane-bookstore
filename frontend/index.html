@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter Lane Bookstore</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Independent Online Bookstore</p>
+        <h1>Chapter Lane</h1>
+      </div>
+      <nav class="header-actions" aria-label="Primary">
+        <button class="ghost-button active" data-view-button="shop">Shop</button>
+        <button class="ghost-button" data-view-button="admin">Admin</button>
+        <button class="cart-button" id="cartToggle" aria-label="Open cart">
+          Cart <span id="cartCount">0</span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="shopView">
+        <div class="hero-copy">
+          <p class="eyebrow">Curated reads for every shelf</p>
+          <h2>Browse books, build your cart, and try a fast checkout flow.</h2>
+          <p>
+            Search the catalog, filter by genre, and manage quantities before
+            placing an order.
+          </p>
+        </div>
+        <div class="hero-stack" aria-label="Featured book covers">
+          <div class="feature-book cover-sage">Designing Calm Systems</div>
+          <div class="feature-book cover-rust">Modern Java Notes</div>
+          <div class="feature-book cover-ink">The Product Reader</div>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="Catalog filters">
+        <label>
+          Search
+          <input id="searchInput" type="search" placeholder="Title or author" />
+        </label>
+        <label>
+          Genre
+          <select id="genreFilter">
+            <option value="all">All genres</option>
+          </select>
+        </label>
+        <label>
+          Sort
+          <select id="sortSelect">
+            <option value="featured">Featured</option>
+            <option value="price-low">Price: low to high</option>
+            <option value="price-high">Price: high to low</option>
+            <option value="rating">Top rated</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="catalog-grid" id="catalogGrid" aria-live="polite"></section>
+
+      <section class="admin-panel hidden" id="adminView">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Admin</p>
+            <h2>Catalog Manager</h2>
+          </div>
+          <button class="secondary-button" id="resetCatalog">Reset Catalog</button>
+        </div>
+
+        <form class="admin-form" id="productForm">
+          <input type="hidden" id="productId" />
+          <label>
+            Title
+            <input id="productTitle" required />
+          </label>
+          <label>
+            Author
+            <input id="productAuthor" required />
+          </label>
+          <label>
+            Genre
+            <input id="productGenre" required />
+          </label>
+          <label>
+            Price
+            <input id="productPrice" type="number" min="1" step="0.01" required />
+          </label>
+          <label>
+            Rating
+            <input id="productRating" type="number" min="1" max="5" step="0.1" required />
+          </label>
+          <label>
+            Stock
+            <input id="productStock" type="number" min="0" step="1" required />
+          </label>
+          <label class="wide">
+            Description
+            <textarea id="productDescription" rows="3" required></textarea>
+          </label>
+          <label>
+            Cover Style
+            <select id="productCover">
+              <option value="cover-sage">Sage</option>
+              <option value="cover-rust">Rust</option>
+              <option value="cover-ink">Ink</option>
+              <option value="cover-gold">Gold</option>
+              <option value="cover-blue">Blue</option>
+            </select>
+          </label>
+          <label class="checkbox-line">
+            <input id="productPublished" type="checkbox" checked />
+            Published
+          </label>
+          <div class="form-actions">
+            <button class="primary-button" type="submit">Save Book</button>
+            <button class="ghost-button" type="button" id="clearForm">Clear</button>
+          </div>
+        </form>
+
+        <div class="admin-list" id="adminList"></div>
+      </section>
+    </main>
+
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true">
+      <div class="cart-header">
+        <h2>Your Cart</h2>
+        <button class="icon-button" id="closeCart" aria-label="Close cart">x</button>
+      </div>
+      <div id="cartItems" class="cart-items"></div>
+      <div class="cart-summary">
+        <div><span>Subtotal</span><strong id="cartSubtotal">$0.00</strong></div>
+        <div><span>Estimated tax</span><strong id="cartTax">$0.00</strong></div>
+        <div class="total-row"><span>Total</span><strong id="cartTotal">$0.00</strong></div>
+        <button class="primary-button full-width" id="checkoutButton">Checkout</button>
+      </div>
+    </aside>
+    <div class="scrim hidden" id="scrim"></div>
+
+    <dialog id="checkoutDialog">
+      <form method="dialog" class="checkout-form" id="checkoutForm">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Checkout</p>
+            <h2>Complete Your Order</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="Close checkout">x</button>
+        </div>
+        <label>
+          Name
+          <input id="customerName" required placeholder="Jane Reader" />
+        </label>
+        <label>
+          Email
+          <input id="customerEmail" type="email" required placeholder="jane@example.com" />
+        </label>
+        <label>
+          Delivery Option
+          <select id="deliveryOption">
+            <option>Standard shipping</option>
+            <option>Express shipping</option>
+            <option>Store pickup</option>
+          </select>
+        </label>
+        <p class="checkout-note">
+          No payment is collected. Orders are saved by the Java backend.
+        </p>
+        <button class="primary-button full-width" type="submit">Place Order</button>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
